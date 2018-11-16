@@ -31,7 +31,7 @@
                 
                 console.log(indexNum);
                 for(var i = 0; i<indexNum; i++) {
-                    //list of JSON objects i need
+                    //list of JSON values i need
                     var images = json.items[i].media.m;
                     var author = json.items[i].author;
                     var title = json.items[i].title;
@@ -52,6 +52,7 @@
                     var getP = el.querySelectorAll('p')[2];
                                         
                     
+                    // test if an object is null
                     function objectValidator (string, errMes) {
                         if (string == null) {
                             $(errMes).appendTo(photoTile);
@@ -60,7 +61,10 @@
                         }
                     }
                     
+                    
+                    // if value is an empty string
                     function stringVal (string, errMes) {
+                        // <=1 because flickr title returns a single space. This is a temporary workaround
                         if (string.length <= 1) {
                             return errMes;
                         } else {
@@ -75,6 +79,7 @@
                     var titleErr = 'No title available';
                     var tagErr = 'No tags available';
                     
+                    // append data to Photo Tile Div element based on what is returned in the JSON
                     var photoTile = '.photo_tile_' + i; 
                     $('.tile_container').append('<div class="photo_tile_' + i + '" id="photo_tile"</div>');
                     $('<img class="flickr_images_' + i + '" src="' + images + '" id="flickr_images" />').appendTo(photoTile);
@@ -87,6 +92,7 @@
                 
             const flickrApiPoint = "https://api.flickr.com/services/feeds/photos_public.gne";
             
+            
             try {
                 
                 $.ajax({
@@ -94,7 +100,7 @@
                     dataType: 'jsonp',
                     data: { 
                         "format": "json",
-                        "safe_search": "1"
+                        "safe_search": "1" //no raunchy pictures! 
                           },
                     complete: function (data) {
                         console.log('ajax call completed'); //formatted JSON data
@@ -113,6 +119,8 @@
        <div class="header">
            <div class="menu">
                <ul class="menuNav">
+                   
+                   <!-- header menu -->
                     <li class="left_listMenu"><a href="#">EXPLORE</a></li>
                     <li class="left_listMenu"><a href="#">BLOG</a></li>
                     <li class="left_listMenu"><a href="#">CONTACT</a></li>
