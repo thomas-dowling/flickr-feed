@@ -13,8 +13,6 @@ List of flickr photos from the recent_photos API
 
 1. Ask me to give you an SSH key/add you to the project
 2. Open cmd/terminal and cd into your desired location
-3. Run git clone git@github.com:thomas-dowling/flickr-feed.git
+3. Run git clone 'git@github.com:thomas-dowling/flickr-feed.git'
 4. cd into flickr-feed folder 
-5. In your terminal run ```bash 
-open ./index.html'
-```
+5. In your terminal run 'open ./index.html'
