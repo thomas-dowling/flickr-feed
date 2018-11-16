@@ -3,9 +3,14 @@
         <title>Flickr Photo Feed</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- jQuery CDN -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        
         <link rel="stylesheet" href="css/uikit.min.css" />
         <!-- UIkit CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.22/css/uikit.min.css" />
+        <link rel="stylesheet" href="css/uikit.min.css" />
 
        <!-- Custom CSS -->
        <link rel="stylesheet" href="style.css" />
@@ -13,6 +18,96 @@
         <!-- UIkit JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.22/js/uikit.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.22/js/uikit-icons.min.js"></script>
+        
+        <script>
+
+            
+            function jsonFlickrFeed(json) {
+                console.log(json);
+                console.log('jsonFlickrFeed called');
+                
+
+                var indexNum = json.items.length;                
+                
+                console.log(indexNum);
+                for(var i = 0; i<indexNum; i++) {
+                    //list of JSON objects i need
+                    var images = json.items[i].media.m;
+                    var author = json.items[i].author;
+                    var title = json.items[i].title;
+                    var description = json.items[i].description;
+                    var tags = json.items[i].tags;
+                                        
+                    // get photo url from description JSON value. 
+                    var imageURL = $(description).find('a')[ 1 ];
+                    var parseImageURL = $(imageURL).attr('href');
+                    
+                    // get author URL from description JSON value
+                    var authorURL = $(description).find('a')[ 0 ];
+                    var parseAuthorURL = $(authorURL).attr('href');
+                    
+                    // get photo description from descriptions JSON value. Moving this into a temp HTML element as it's being returned as an Object
+                    var el = document.createElement('div');
+                    el.innerHTML = description;
+                    var getP = el.querySelectorAll('p')[2];
+                                        
+                    
+                    function objectValidator (string, errMes) {
+                        if (string == null) {
+                            $(errMes).appendTo(photoTile);
+                        } else {
+                            $(string).appendTo(photoTile);
+                        }
+                    }
+                    
+                    function stringVal (string, errMes) {
+                        if (string.length <= 1) {
+                            return errMes;
+                        } else {
+                            return string;
+                        }
+                    }
+                    
+                    console.log(title.length);
+                                        
+                    // variable for validation
+                    var descriptionErr = '<p class="flickr_description_' + i + '" id="flickr_description">No Description Available</p>';
+                    var titleErr = 'No title available';
+                    var tagErr = 'No tags available';
+                    
+                    var photoTile = '.photo_tile_' + i; 
+                    $('.tile_container').append('<div class="photo_tile_' + i + '" id="photo_tile"</div>');
+                    $('<img class="flickr_images_' + i + '" src="' + images + '" id="flickr_images" />').appendTo(photoTile);
+                    $('<p class="flickr_title_' + i + '" id="flickr_title"><b>' + '<a href="' + parseImageURL + '" target="_blank">' + stringVal(title, titleErr) + '</a>' + '</b></p><p id="flickr_author">by ' + '<a href="' + parseAuthorURL + '" target="_blank">' + author + '</a>' + '</p>').appendTo(photoTile);
+                    $('<hr class="uk-divider-icon" id="tile_divider">').appendTo(photoTile);
+                    $(objectValidator(getP, descriptionErr));
+                    $('<p class=flickr_tag_' + i + '" id="flickr_tag"><b>' + 'Tags: </b>' + stringVal(tags, tagErr) + '</p>').appendTo(photoTile);
+                }
+            }
+                
+            const flickrApiPoint = "https://api.flickr.com/services/feeds/photos_public.gne";
+            
+            try {
+                
+                $.ajax({
+                    url: flickrApiPoint,
+                    dataType: 'jsonp',
+                    data: { 
+                        "format": "json",
+                        "safe_search": "1"
+                          },
+                    complete: function (data) {
+                        console.log('ajax call completed'); //formatted JSON data
+                    }
+                });
+            }
+            catch (e) {
+                $('.photo_tile').html('No data found');
+                console.log('error');
+            }
+
+
+       </script>
     </head>
     <body>
        <div class="header">
@@ -30,8 +125,11 @@
            </div>
        </div>
        <hr class="divider">
-        <div class="flickr_photoStream">
-        </div>
+       <div class="tile_container"></div>
+        
+       
+        <div class="toTop"></div>
+        
     </body>
 
 

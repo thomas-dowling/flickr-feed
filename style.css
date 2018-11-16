@@ -7,6 +7,11 @@ a{
     font-size: 13px;
 }
 
+p{
+    font-family: sans-serif;
+    font-size: 13px;
+}
+
 /*header navigation CSS*/
 .menuNav{
     list-style: none;
@@ -36,4 +41,66 @@ a{
 
 .flickr_photoStream{
     padding: 20px 0px 0px 0px;
+}
+
+.tile_container{
+    display: block;
+    padding: 40px;
+    text-align: center;
+}
+
+#photo_tile{
+    height: 393px;
+    width: 326px;
+    background-color: #F5F5F5;
+    display: inline-table;
+    margin: 0px 24px 24px 19px;
+}
+
+#flickr_images{
+    width: 326px;
+    height: 196px;
+    object-fit: cover;
+}
+
+#flickr_title{
+    height: 37px;
+    width: 40%;
+    overflow: hidden;
+    display: inline;
+    float: left;
+    padding: 0 0 0 15px;
+    word-wrap: break-word;
+}
+
+#flickr_author{
+    height: 37px;
+    display: inline;
+    width: 40%;
+    overflow: hidden;
+    float: right;
+    padding: 0 15px 0 0;
+}
+
+#tile_divider{
+    margin-top: 60px;
+}
+
+#flickr_tag{
+    overflow: hidden;
+    height: 20px;
+    margin: 40px 20px 20px 20px;
+}
+
+#flickr_description{
+    overflow: hidden;
+    height: 50px;
+    margin: 40px 20px 0px 20px;
+}
+
+#photo_tile p:nth-child(5){
+    overflow: hidden;
+    height: 80px;
+    width: 295px;
+    margin: 40px 20px 0px 20px;
 }
